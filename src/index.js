@@ -1,38 +1,30 @@
-const express = require("express")
+const ProductManager = require("./productManager")
 
-const app = express()
+const manager = new ProductManager("products.json")
 
-app.get("/saludo", (request, response)=>{
-    response.send("endpoint saludo")
+const test = async()=>{
+    // manager.addProduct({
+    //     name:"Pera",
+    //     price: 240
+    // })
+    // console.log(await manager.getProducts())
+    // await manager.updateProductIndex(5, {
+    //     name: "Zapallo",
+    //     price: 77
+    // })
+    console.log(await manager.getProducts())
+    // console.log(await manager.getProductsById(5))
+    await manager.deleteProduct(2)
+    console.log(await manager.getProducts())
+    
 
-})
+}
 
-// const html= `<h1 style="color:blue">Bienvenidos</h1>`
-// const user= {
-//     nombre:"Ezequiel",
-//     apellido:"Klausing",
-//     edad: 30
-// }
-
-app.get("/",(req, res)=>{
-    res.send({users})
-})
-
-app.get("/saludar/:nombre/:apellido", (req, res)=>{
-
-    console.log(req.params)
-    const saludo= `Saludos a ${req.params.nombre} ${req.params.apellido}`
-
-    response.send("saludando a alguien")
-})
-// app.get("/user", (request, response)=>{
-//     response.send(user)
-// })
+test()
 
 
-app.listen(8080, ()=>{
-    console.log("Server listening on port 8080")
-})
-//http://localhost:8080/saludo
-//es un endpoint.
+
+    
+
+
 
