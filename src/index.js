@@ -1,6 +1,6 @@
 const ProductManager = require("./productManager")
 
-const manager = new ProductManager("products.json")
+const manager = new ProductManager("./db/products.json")
 
 const test = async()=>{
     // manager.addProduct({
@@ -13,9 +13,9 @@ const test = async()=>{
     //     price: 77
     // })
     console.log(await manager.getProducts())
-    // console.log(await manager.getProductsById(5))
-    await manager.deleteProduct(2)
-    console.log(await manager.getProducts())
+    console.log(await manager.getProductsById(2))
+    // await manager.deleteProduct(2)
+    // console.log(await manager.getProducts())
     
 
 }
