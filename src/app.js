@@ -1,17 +1,19 @@
 import  express  from "express";
-import userRoutes from "./routers/usersRouters.js"
-import petsRoutes from "./routers/petsRouters.js"
+import productsRouter from "./routers/productsRouter.js"
+import cartsRouter from "./routers/cartsRouter.js"
+
 
 const app = express()
 
 app.use(express.json())
+app.use("/static",express.static("public")) 
+app.use(express.urlencoded({extended:true}))
 
-app.use("/api/users", userRoutes)
 
-app.use("/api/pets", petsRoutes)
+app.use("/api/products", productsRouter)
 
-app.use("/", (req,res)=>{
-    res.send("home")
-})
+app.use("/api/carts", cartsRouter)
+
+app.use("/", (req,res)=>res.send("home"))
 
 app.listen(8080)

@@ -1,9 +1,41 @@
-[{"name":"Beer","price":"120","id":1},
-{"name":"Wine","price":"148","id":2},
-{"name":"Malbec","price":"132","id":3},
-{"name":"apa","price":"100","id":4},
-{"name":"ipa","price":"99","id":5},
-{"name":"Juice","price":"58","id":6},
-{"name":"Licor","price":"240","id":7},
-{"name":"Whisky","price":"230","id":8}
+[{
+    "name": "Beer",
+    "price": "120",
+    "id": 1
+},
+{
+    "name": "Wine",
+    "price": "148",
+    "id": 2
+},
+{
+    "name": "Malbec",
+    "price": "132",
+    "id": 3
+},
+{
+    "name": "apa",
+    "price": "100",
+    "id": 4
+},
+{
+    "name": "ipa",
+    "price": "99",
+    "id": 5
+},
+{
+    "name": "Juice",
+    "price": "58",
+    "id": 6
+},
+{
+    "name": "Licor",
+    "price": "240",
+    "id": 7
+},
+{
+    "name": "Whisky",
+    "price": "230",
+    "id": 8
+}
 ]
