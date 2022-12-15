@@ -5,7 +5,7 @@ export class ProductManager {
         this.path = path
     }
     
-    read = ()=>{
+    #read = ()=>{
         try{
             if (fs.existsSync(this.path)){
                 return fs.promises.readFile(this.path,"utf-8").then (result=> JSON.parse(result))
@@ -16,50 +16,48 @@ export class ProductManager {
         return[]
     }
     
-    write =  products =>{
-            return fs.promises.writeFileSync(this.path, JSON.stringify(products))
-        }
-
+    #write(data){
+        return fs.promises.writeFile(this.path, JSON.stringify(data, null, 3))   
+    }
+            
+    
     getNextId = list => { 
         const count = list.length
         return (count > 0) ? list[count-1].id +1 : 1 
     }
 
     getProducts = async ()=>{
-                const data = await this.read()
+                const data = await this.#read()
                 return data
     }
 
-    addProduct = async ({name, price}) =>{
+    addProduct = async ({title, description, code, price, status, stock, category, thumbnails}) =>{
         const products= await this.getProducts()
         const nextId= this.getNextId(products)
-        console.log(products, nextId)
-        const newProduct = {id:nextId, name, price}
+        const newProduct = {id:nextId, title, description, code, price, status, stock, category, thumbnails}
+        console.log(products, newProduct)
+        products.push(newProduct)
+        await this.#write(products)
+        return newProduct
         // const existIdProduct = products.some(e=> e.id===newProduct.id)
         
         // if (existIdProduct){
         //     throw new Error("El codigo no se puede repetir.")
         // }
-
-        // //obj.id= nextId
-        // products.push(newProduct)
-        // await this.write(products)
-
-        return newProduct
     }
 
-    updateProductIndex = async (id,obj)=>{
-        obj.id = id
-        const list= await this. read()
-
-        const idx= list.findIndex( e => e.id == id)
-        if(idx < 0 ) return
-        list [idx] = obj
-        await this.write (list)
+    updateProductIndex = async (id, obj)=>{
+        const products= await this.getProducts()
+        const productiIdx= products.findIndex( product => product.id === id)
+        if(productiIdx < 0 || productiIdx > products.length) return {error:"Producto no existe"}
+        const product = products[productiIdx]
+        products[productiIdx]= {...product, ...obj}
+        await this.#write(products)
+        return products[productiIdx]
     }
 
     getProductsById = async (id)=>{
-        const list= await this. read()
+        const list= await this.#read()
         const productInList = list.find(item=> item.id===id)
         if (productInList){
             return productInList
@@ -70,13 +68,10 @@ export class ProductManager {
     }
 
     deleteProduct = async (id)=>{
-        const list = await this.getProducts();
-        if(list[id-1]=== undefined){
-            console.log("No se encuentra el producto a borrar.")
-        }else{
-            list.splice(id-1, 1,)
-            await this.write(list)
-        }
+        const products = await this.getProducts();
+        if( id-1 > products.length) return ({error:"Producto no existe"})
+        products.splice(id-1, 1,)
+        await this.#write(products)
     }
 }
 

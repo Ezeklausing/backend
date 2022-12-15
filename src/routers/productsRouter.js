@@ -27,7 +27,29 @@ router.get("/:id", async (req, res)=>{
 router.post ("/", async (req,res)=>{
     const newProduct = req.body
     await manager.addProduct(newProduct)
-    res.json({status: "success"})
+    res.send({status: "success", product:newProduct})
+})
+
+router.put ("/:pid", async (req,res)=>{
+    try {
+        const id = Number(req.params.pid)
+        const obj = req.body
+        const updateProductbyId= await manager.updateProductIndex(id,obj)
+        res.send ({success:true, product: updateProductbyId})
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+router.delete ("/:pid", async (req, res)=>{
+    try {
+        const id = Number(req.params.pid)
+        await manager.deleteProduct(id)
+        res.send({success: true, product:"Eliminado"})
+
+    }catch (error) {
+        console.log(error)
+    }
 })
 
 
