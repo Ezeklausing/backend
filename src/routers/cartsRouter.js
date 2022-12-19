@@ -35,11 +35,6 @@ router.post ("/:cid/product/:pid", async (req,res)=>{
 
 
 
-
-
-
-
-
 router.put ("/:pid", async (req,res)=>{
     try {
         const id = Number(req.params.pid)
@@ -47,17 +42,6 @@ router.put ("/:pid", async (req,res)=>{
         const updateProductbyId= await manager.updateProductIndex(id,obj)
         res.send ({success:true, product: updateProductbyId})
     } catch (error) {
-        console.log(error)
-    }
-})
-
-router.delete ("/:pid", async (req, res)=>{
-    try {
-        const id = Number(req.params.pid)
-        await manager.deleteProduct(id)
-        res.send({success: true, product:"Eliminado"})
-
-    }catch (error) {
         console.log(error)
     }
 })
