@@ -1,42 +1,101 @@
 [
    {
       "id": 1,
-      "name": "Beer",
-      "price": 120
+      "title": "orange juice",
+      "description": "items description",
+      "code": "ghs587558",
+      "price": 145,
+      "status": true,
+      "stock": 100,
+      "category": "items category",
+      "thumbnails": "/"
    },
    {
       "id": 2,
-      "name": "Wine",
-      "price": 148
+      "title": "detox juice",
+      "description": "items description",
+      "code": "ghs587557",
+      "price": 125,
+      "status": true,
+      "stock": 100,
+      "category": "items category",
+      "thumbnails": "/"
    },
    {
       "id": 3,
-      "name": "Malbec",
-      "price": 132
+      "title": "orange juice",
+      "description": "items description",
+      "code": "ghs587447",
+      "price": 100,
+      "status": true,
+      "stock": 100,
+      "category": "items category",
+      "thumbnails": "/"
    },
    {
       "id": 4,
-      "name": "apa",
-      "price": 100
+      "title": "Lager Beer",
+      "description": "items description",
+      "code": "ghs587547",
+      "price": 98,
+      "status": true,
+      "stock": 100,
+      "category": "items category",
+      "thumbnails": "/"
    },
    {
       "id": 5,
-      "name": "ipa",
-      "price": 99
+      "title": "IPA Beer",
+      "description": "items description",
+      "code": "ghs588547",
+      "price": 115,
+      "status": true,
+      "stock": 100,
+      "category": "items category",
+      "thumbnails": "/"
    },
    {
       "id": 6,
-      "name": "Juice",
-      "price": 58
+      "title": "Stout Beer",
+      "description": "items description",
+      "code": "ghs598527",
+      "price": 135,
+      "status": true,
+      "stock": 100,
+      "category": "items category",
+      "thumbnails": "/"
    },
    {
       "id": 7,
-      "name": "Licor",
-      "price": 240
+      "title": "Malbec Wine",
+      "description": "items description",
+      "code": "ghs605027",
+      "price": 235,
+      "status": true,
+      "stock": 100,
+      "category": "items category",
+      "thumbnails": "/"
    },
    {
       "id": 8,
-      "name": "Whisky",
-      "price": 230
+      "title": "Cabernet Wine",
+      "description": "items description",
+      "code": "ghs605028",
+      "price": 215,
+      "status": true,
+      "stock": 100,
+      "category": "items category",
+      "thumbnails": "/"
+   },
+   {
+      "id": 9,
+      "title": "Sirah Wine",
+      "description": "items description",
+      "code": "ghs605029",
+      "price": 219,
+      "status": true,
+      "stock": 100,
+      "category": "items category",
+      "thumbnails": "/"
    }
 ]
