@@ -66,42 +66,20 @@ export class cartManager {
     addproduct = async (cartId, productId)=>{
 
         const cart = await this.getById(cartId)
-        console.log(cart.products.length)
         let found = false
         for (let i = 0; i < cart.products.length; i++) {
             console.log(cart.products[i].id)
             if(cart.products[i].id == productId){
                 cart.products[i].quantity++
                 found= true
-                console.log(found)
                 break
             }
         }
         if (!found){
             cart.products.push({id: productId, quantity:1})
-            console.log(found)
         }
         await this.update(cartId, cart)
         return cart
-    }
-
-    
-
-
-
-
-
-
-
-
-
-
-
-    deleteProduct = async (id)=>{
-        const carts = await this.getCarts();
-        if( id-1 > products.length) return ({error:"Producto no existe"})
-        products.splice(id-1, 1,)
-        await this.#write(products)
     }
 }
 
