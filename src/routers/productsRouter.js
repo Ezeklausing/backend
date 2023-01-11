@@ -27,6 +27,11 @@ router.get("/:id", async (req, res)=>{
 router.post ("/", async (req,res)=>{
     const newProduct = req.body
     await manager.addProduct(newProduct)
+
+    req.app
+      .get("io")
+      .sockets.emit("products", await manager.getProducts());
+      
     res.send({status: "success", product:newProduct})
 })
 
