@@ -2,10 +2,11 @@ import  express  from "express";
 import mongoose from "mongoose";
 import handlebars from "express-handlebars"
 import productsRouter from "./routers/products.router.mdb.js"
-import cartsRouter from "./routers/cartsRouter.js"
+import cartsRouter from "./routers/carts.router.mdb.js"
 import viewsRouter from "./routers/views.router.js"
-import { ProductManager } from "./dao/managers/productManager.js";
+import chatsRouter from "./routers/chats.router.mdb.js"
 import { productModel } from "./dao/models/product.model.js";
+import { chatModel } from "./dao/models/chat.model.js";
 import __dirname from "./dirname.js";
 import { Server as HttpServer} from "http";
 import { Server as IoServer} from "socket.io";
@@ -47,11 +48,14 @@ app.use("/api/products", productsRouter)
 
 app.use("/api/carts", cartsRouter)
 
+app.use("/api/chats", chatsRouter)
 
 const server = httpServer.listen(8080, ()=>console.log(`Server running on port ${server.address().port}`))
 
 server.on("error", (error)=>console.log(error))
 
+
+let messages=[]
 
 io.on("connection", async (socket) =>{
     console.log(`New client connected, Id: ${socket.id}`)
@@ -69,6 +73,14 @@ io.on("connection", async (socket) =>{
         //se vuelven a enviar los productos. 
         // io.sockets.emit("products", await manager.getProducts())
         io.sockets.emit("products", await productModel.find())
+    })
+
+    socket.on("message", async (data) =>{
+        await chatModel.create(data)
+        io.emit("messageLogs", await chatModel.find()) // publicamos los mensajes para todos.  
+    })
+    socket.on("authenticated", user =>{
+        socket.broadcast.emit("newUser", user)
     })
 })
 
