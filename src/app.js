@@ -15,9 +15,11 @@ import { Server as IoServer} from "socket.io";
 const app = express()
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
-
-mongoose.connect("mongodb+srv://ezedrums:ATxMPVifSQ03xJmJ@cluster0.abi5soe.mongodb.net/?retryWrites=true&w=majority",
-error =>{
+//dbname
+mongoose.connect("mongodb+srv://ezedrums:ATxMPVifSQ03xJmJ@cluster0.abi5soe.mongodb.net/?retryWrites=true&w=majority", {
+    dbName: "ecommerce"
+}
+,error =>{
     if (error){
         console.error("Cannot connect to db", error);
         process.exit()
