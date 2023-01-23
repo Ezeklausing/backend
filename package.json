@@ -62,6 +62,7 @@
     "mkdirp": "^0.5.6",
     "moment": "^2.29.4",
     "mongoose": "^6.8.3",
+    "mongoose-paginate-v2": "^1.7.1",
     "ms": "^2.0.0",
     "multer": "^1.4.5-lts.1",
     "negotiator": "^0.6.3",

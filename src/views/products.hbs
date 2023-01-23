@@ -1,0 +1,50 @@
+{{#if isValid}}
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Descripcion</th>
+                <th>Categoria</th>
+                <th>Precio</th>
+                <th>Miniatura</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each docs}}
+            <tr>
+                <td>{{this.title}}</td>
+                <td>{{this.description}}</td>
+                <td>{{this.category}}</td>
+                <td>{{this.price}}</td>
+                <td><img height="72px" width="72px" src={{this.thumbnail}} /></td>
+                <td><button id="addToCart" type="button" class="btn btn-primary">Add to cart</button></td>
+                
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <div>
+        {{#if hasPrevPage}}
+        <a href="{{prevLink}}">Anterior</a>
+        {{/if}}
+        {{ page }}
+        {{#if hasNextPage}}
+        <a href="{{nextLink}}">Siguiente</a>
+        {{/if}}
+    </div>
+
+</div>
+{{else}}
+<h1>No hay products</h1>
+
+{{/if}}
+
+<script src="js/main.js"></script>
+
+
+
+
+
+

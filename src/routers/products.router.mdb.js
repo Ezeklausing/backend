@@ -1,19 +1,47 @@
-import { Router } from "express";
+import { query, Router } from "express";
 import { productModel } from "../dao/models/product.model.js";
 
 
 const router= Router()
 
-router.get("/", async(req,res)=>{
+router.get("/", async (req,res)=>{
     try {
-        const products = await productModel.find()
-        res.send({
-            result:"Success",
-            payload: products
-        })
-    } catch (error) {
-        console.error("Cannot get products from Mongo", error)
-    }
+        let {limit, page, sort} = req.query;
+        if (!limit) limit =5
+        if(!page) page = 1
+        //revisar sort. 
+        
+
+        const filter = req.query?.query || ""
+        const search = {}
+        if(filter){
+            search["$or"]=[
+                {title:{$regex: filter}},
+                {code:{$regex: filter}},
+                {category:{$regex: filter}}
+            ]
+        }
+        const result = await productModel.paginate( search, {limit, page, lean:true, sort:{price:sort} })
+        //navegacion paginas.
+        result.prevLink = result.hasPrevPage ? `/api/products?page=${result.prevPage}` : ''
+        result.nextLink = result.hasNextPage ? `/api/products?page=${result.nextPage}` : ''
+        result.isValid = !(page <= 0 || page>result.totalPages)
+        
+    res.render("products", result)
+    console.log({
+        result:"Success",
+        payload:result
+    })
+    } catch (error) {console.error("Cannot get products from Mongo", error)}
+})
+
+router.get("/pjson", async(req,res)=>{
+    const products = await productModel.find()
+    res.send({
+        result:"Success",
+        payload: products
+    })
+
 })
 
 router.post("/", async(req,res)=>{

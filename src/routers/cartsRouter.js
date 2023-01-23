@@ -33,8 +33,6 @@ router.post ("/:cid/product/:pid", async (req,res)=>{
 })
 
 
-
-
 router.put ("/:pid", async (req,res)=>{
     try {
         const id = Number(req.params.pid)

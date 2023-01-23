@@ -12,8 +12,8 @@ socket.on("products", (products)=>{
     const allProducts = products.map(product=>
     `<tr>
         <td>${product.title} </td>
-        <td>${product.price} </td>
         <td>${product.description} </td>
+        <td>${product.price} </td>
         <td> <img heigth = "72px" widht ="72px " src= ${product.thumbnail} /> </td>
     </tr>`
     ).join("")
@@ -39,3 +39,4 @@ createProductForm.addEventListener("submit", async (e)=>{
     //     }
     // })
 })
+

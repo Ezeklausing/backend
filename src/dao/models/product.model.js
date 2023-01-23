@@ -1,10 +1,10 @@
-import mongoose from "mongoose";        
+import mongoose from "mongoose";     
+import mongoosePaginate from "mongoose-paginate-v2"   
 
 
-//Nombre Coleccion
 const productCollection = "products"
 
-//Esquema del documento 
+
 const productSchema= new mongoose.Schema({
     title: String,
     description: String,
@@ -15,5 +15,8 @@ const productSchema= new mongoose.Schema({
     thumbnails: String
 })
 
-//Creacion del modelo  . coll +schema
+
+productSchema.plugin(mongoosePaginate)
+
+
 export const productModel = mongoose.model(productCollection, productSchema)
