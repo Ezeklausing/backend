@@ -5,10 +5,10 @@ import {ProductManager} from "../managers/productManager.js";
 const manager = new ProductManager(`./src/db/products.json`)
 const router= Router()
 
-
 router.get("/", async(req,res)=>{
     const products = await manager.getProducts()
     const {limit} = req.query
+    
 
     if(!limit || limit < 1 ) return res.send({products})
     else{

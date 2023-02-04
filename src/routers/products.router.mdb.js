@@ -9,9 +9,8 @@ router.get("/", async (req,res)=>{
         let {limit, page, sort} = req.query;
         if (!limit) limit =5
         if(!page) page = 1
+        const user = req.session.user
         //revisar sort. 
-        
-
         const filter = req.query?.query || ""
         const search = {}
         if(filter){
@@ -27,10 +26,10 @@ router.get("/", async (req,res)=>{
         result.nextLink = result.hasNextPage ? `/api/products?page=${result.nextPage}` : ''
         result.isValid = !(page <= 0 || page>result.totalPages)
         
-    res.render("products", result)
+    res.render("products", {result, user})
     console.log({
         result:"Success",
-        payload:result
+        payload:result,
     })
     } catch (error) {console.error("Cannot get products from Mongo", error)}
 })

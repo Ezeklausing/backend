@@ -10,22 +10,12 @@ const router = Router()
 // const manager = new ProductManager(`./src/db/products.json`)
 
 
-
-// router.get ("/", async (req,res)=>{
-//     const products = await manager.getProducts()
-//     res.render("home", {products})
-// })
-
-// router.get("/realtimeproducts", (req,res)=>{
-//     res.render("realTimeproducts")
-// })
-
-
 //CON MONGO DB
 
-router.get("/", async(req,res)=>{
-    const products = await productModel.find().lean()
-    res.render("home", {products})
+router.get("/", async (req,res)=>{
+    
+
+    res.render("home")
 })
 
 router.get("/realtimeproducts", (req,res)=>{
