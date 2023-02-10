@@ -1,16 +1,23 @@
 import  express  from "express";
+import session from "express-session";
 import mongoose from "mongoose";
-import handlebars from "express-handlebars"
-import { productModel } from "./dao/models/product.model.js";
-import { chatModel } from "./dao/models/chat.model.js";
+import MongoStore from "connect-mongo";
 import __dirname from "./utils.js";
+
+import handlebars from "express-handlebars"
+
 import { Server as HttpServer} from "http";
 import { Server as IoServer} from "socket.io";
-import session from "express-session";
-import MongoStore from "connect-mongo";
 
-import sessionsRouter from "./routers/sessions.router.js"
-import { auth } from "./routers/sessions.router.js";
+import { productModel } from "./dao/models/product.model.js";
+import { chatModel } from "./dao/models/chat.model.js";
+
+
+import passport from 'passport'
+import initializePassport from './config/passport.config.js'
+
+import sessionRouter from "./routers/session.router.js"
+import { auth } from "./routers/session.router.js";
 import productsRouter from "./routers/products.router.mdb.js"
 import cartsRouter from "./routers/carts.router.mdb.js"
 import viewsRouter from "./routers/views.router.js"
@@ -49,6 +56,10 @@ app.use(session({
     saveUninitialized:true
 }))
 
+initializePassport()
+app.use(passport.initialize())
+app.use(passport.session())
+
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
@@ -75,7 +86,7 @@ app.use("/", viewsRouter )
 app.use(express.static("public")) 
 
 
-app.use("/sessions", sessionsRouter)
+app.use("/session", sessionRouter)
 app.use("/api/products", auth, productsRouter)
 app.use("/api/carts", auth, cartsRouter)
 app.use("/api/chats", chatsRouter)
