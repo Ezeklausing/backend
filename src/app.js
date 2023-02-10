@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import handlebars from "express-handlebars"
 import { productModel } from "./dao/models/product.model.js";
 import { chatModel } from "./dao/models/chat.model.js";
-import __dirname from "./dirname.js";
+import __dirname from "./utils.js";
 import { Server as HttpServer} from "http";
 import { Server as IoServer} from "socket.io";
 import session from "express-session";
@@ -48,7 +48,6 @@ app.use(session({
     resave: true,
     saveUninitialized:true
 }))
-
 
 
 app.use(express.json())
