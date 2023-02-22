@@ -1,13 +1,15 @@
 import { Router } from "express";
 import {cartModel} from "../dao/models/cart.model.js"
-import {productModel} from "../dao/models/product.model.js"
-import { mongoose } from "mongoose";
+import cartService from "../services/cart.service.js";
 
 const router = Router()
-//buscar los carritos
+
+const cartServ = new cartService()
+
+
 router.get ("/", async(req,res)=>{
     try {
-        const carts = await cartModel.find()
+        const carts = await cartServ.getCarts()
         res.json({
             status:"Success",
             payload: carts
@@ -17,102 +19,69 @@ router.get ("/", async(req,res)=>{
         console.error("Cannot get carts from Mongo", error)
     }    
 })
-//agregar carrito
+
+
+router.get("/:cid", async(req,res)=>{
+    const {cid}= req.params
+    const result = await cartServ.getCartsPopulate({_id:cid})
+    res.json({status: "Success", payload: result})
+
+})
+
+
 router.post("/", async(req,res)=>{
-    const result = await cartModel.create(req.body)
+    const result = await cartServ.createCart(req.body)
     res.send({
         result:"Success",
         payload: result
     })
 })
 
-//Agrega producto
+
 router.post("/:cid/:pid", async (req, res)=>{
     const {cid}= req.params
     const {pid}= req.params
     
-    const result = await cartModel.updateOne(
-        {_id: cid},
-        {$push: {products: {product:pid, quantity:1}}})
-    
-    res.send({status: "Success", payload: result})
+    const update = await cartServ.addProductById(cid,pid)
+
+    res.send({status: "Success", payload: update})
 })
 
-//populate
-router.get("/:cid", async(req,res)=>{
-    const {cid}= req.params
-    const cart =  await cartModel.find({_id:cid})
-    res.json({status: "Success", payload: cart})
 
-})
-
-//Actualiza carrito
 router.put("/:cid", async(req,res)=>{  
     const {cid} = req.params
     const cartToReplace = req.body
-    
 
-    const result = await cartModel.updateOne(
-        {_id: cid},
-        {$push: {products: cartToReplace}})
+    const result = await cartServ.updateCartById(cid, cartToReplace)
 
     res.send({status: "Success", payload: result})
 })
 
-
-
-//Actualizar cant. 
-router.put("/:cid/products/:pid", async(req,res)=>{
-    const {cid} = req.params
-    const {pid}= req.params
-    const quantity = req.body
-    const result = await cartModel.updateOne(
-        {"cart.product":pid },
-        { 
-            $inc: {"cart.$.quantity":quantity}
-        }, 
-    )
-    res.send({status: "Success", payload: result})
-})
 
 router.put("/:cid/products/:pid", async(req,res)=>{
     const {cid} = req.params
     const {pid}= req.params
     const quantity = req.body
-
-    const result = await cartModel.updateOne(
-        {_id: cid},
-        {$set: {products: {product:quantity}}})
-    
-    res.send({status: "Success", payload: result})
-
+    const result = await cartServ.updateQuantityProduct(cid,pid,quantity)
     res.send({status: "Success", payload: result})
 })
 
 
-
-
-//Elimina carrito
 router.delete("/:cid", async(req,res)=>{
     const {cid}= req.params
-    const result = await cartModel.deleteOne({_id:cid})
+    const result = await cartServ.deleteCartById({_id:cid})
     res.send({status:"Succes", payload: result})
 })
 
 
-//Elimina producto de carrito
 router.delete("/:cid/products/:pid", async (req, res)=>{
     const {cid}= req.params
     const {pid}= req.params
     
-    const result = await cartModel.updateOne(
-        {_id: cid},
-        {$pull: {products: {product:pid}}})
+    const update = await cartServ.deleteProductById(cid,pid)
     
     res.send({status: "Success", payload: result})
 })
-
-
 
 
 export default router

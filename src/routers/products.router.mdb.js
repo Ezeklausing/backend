@@ -1,8 +1,12 @@
-import { query, Router } from "express";
+import { Router } from "express";
 import { productModel } from "../dao/models/product.model.js";
 
+import productService from "../services/product.service.js";
+
+const productServ = new productService()
 
 const router= Router()
+
 
 router.get("/", async (req,res)=>{
     try {
@@ -34,28 +38,23 @@ router.get("/", async (req,res)=>{
     } catch (error) {console.error("Cannot get products from Mongo", error)}
 })
 
-router.get("/pjson", async(req,res)=>{
-    const products = await productModel.find()
-    res.send({
-        result:"Success",
-        payload: products
-    })
+router.get("/pjson", async (req,res)=>{
+    const result  = await productServ.getProducts()
 
+    res.send({result:"Success",payload: result})
 })
 
+
 router.post("/", async(req,res)=>{
-    const result = await productModel.create(req.body)
-    res.send({
-        result:"Success",
-        payload: result
-    })
+    const result = await productServ.createProduct(req.body)
+    res.send({result:"Success",payload: result})
 })
 
 router.put("/:uid", async(req,res)=>{
     const {uid} = req.params
     const productToReplace = req.body
 
-    const result = await productModel.updateOne({_id:uid}, productToReplace)
+    const result = await productServ.updateById({_id:uid}, productToReplace)
 
     res.send({status: "Success", payload: result})
 })
@@ -63,7 +62,7 @@ router.put("/:uid", async(req,res)=>{
 
 router.delete("/:uid", async(req,res)=>{
     const {uid}= req.params
-    const result = await productModel.deleteOne({_id:uid})
+    const result = await productServ.deleteById({_id:uid})
 
     res.send({status:"Succes", payload: result})
 })

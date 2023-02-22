@@ -3,6 +3,7 @@ import session from "express-session";
 import mongoose from "mongoose";
 import MongoStore from "connect-mongo";
 import __dirname from "./utils.js";
+import config from "./config/config.js";
 
 import handlebars from "express-handlebars"
 
@@ -22,13 +23,11 @@ import productsRouter from "./routers/products.router.mdb.js"
 import cartsRouter from "./routers/carts.router.mdb.js"
 import viewsRouter from "./routers/views.router.js"
 import chatsRouter from "./routers/chats.router.mdb.js"
-import userModel from "./dao/models/user.model.js";
 
 
 
-
-const dbUri = "mongodb+srv://ezedrums:ATxMPVifSQ03xJmJ@cluster0.abi5soe.mongodb.net/?retryWrites=true&w=majority"
-
+const dbUri = config.mongoUrl
+ 
 const app = express()
 
 mongoose.set('strictQuery', false) 
@@ -49,7 +48,7 @@ app.use(session({
             useUnifiedTopology: true
         },
         dbName: "ecommerce",
-        ttl:100
+        ttl:100000
     }),
     secret:"123456",
     resave: true,
@@ -87,12 +86,12 @@ app.use(express.static("public"))
 
 
 app.use("/session", sessionRouter)
-app.use("/api/products", auth, productsRouter)
+app.use("/api/products",auth, productsRouter)
 app.use("/api/carts", auth, cartsRouter)
 app.use("/api/chats", chatsRouter)
 
 
-const server = httpServer.listen(8080, ()=>console.log(`Server running on port ${server.address().port}`))
+const server = httpServer.listen(config.port, ()=>console.log(`Server running on port ${server.address().port}`))
 
 server.on("error", (error)=>console.log(error))
 
